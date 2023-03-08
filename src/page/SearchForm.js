@@ -1,9 +1,12 @@
 import React,{useState} from 'react'
+import moment from 'moment';
 const SearchForm = () =>{
     
+    const today = moment().format('YYY-MM-DD').toString()
+    const tomorrow = moment().add(1,'days').format('YYYY-MM-DD').toString()
     const [departureAirport,setDepartureAirport] = useState('');
-    const [parkingCheckIn,setParkingCheckIn] = useState('');
-    const [parkingCheckOut,setParkingCheckout] = useState('');
+    const [parkingCheckIn,setParkingCheckIn] = useState('today');
+    const [parkingCheckOut,setParkingCheckout] = useState('tomorrow');
 
     const [errors, setErrors] = useState({
         departureAirport:false,
@@ -14,8 +17,13 @@ const SearchForm = () =>{
     const departureAirportHandler = (e) => {
         const {value} = e.target;
         setDepartureAirport(value);
+        if(value.length<10){
+            setDepartureAirport(value);
+        }
         if(e.target.value) {
-            setErrors((err)=> ({...err,departureAirport:null}))
+            setErrors((err)=> ({...err,departureAirport:false}))
+        }else{
+            setErrors((err)=> ({...err,departureAirport:true}))
         }
     }
 
@@ -23,15 +31,22 @@ const SearchForm = () =>{
         const {value} = e.target;
         setParkingCheckIn(value);
         if(e.target.value) {
-            setErrors((err)=> ({...err,parkingCheckIn:null}))
+            setErrors((err)=> ({...err,parkingCheckIn:false}))
+        }else{
+            setErrors((err)=> ({...err,parkingCheckIn:true}))
         }
     }
 
     const parkingCheckOutHandler = (e) => {
         const {value} = e.target;
         setParkingCheckout(value);
+        if (moment(parkingCheckIn) > moment(parkingCheckOut)) {
+            setErrors((err) => ({ ...err, parkingCheckOut: true }))
+            }
         if(e.target.value) {
-            setErrors((err)=> ({...err,parkingCheckOut:null}))
+            setErrors((err)=> ({...err,parkingCheckOut:false}))
+        }else{
+            setErrors((err) => ({ ...err,parkingCheckOut: true }))
         }
     }
 
@@ -42,7 +57,11 @@ const SearchForm = () =>{
         console.log(parkingCheckIn);
         console.log(parkingCheckOut);
 
-        if(departureAirport && parkingCheckIn && parkingCheckOut) {
+        if (moment(parkingCheckIn) > moment(parkingCheckOut)) {
+            setErrors((err) => ({ ...err, parkingCheckOut: true }))
+            }     
+
+        else if(departureAirport && parkingCheckIn && parkingCheckOut) {
             alert('Form submitted successfully');
         }else{
             setErrors({
@@ -67,12 +86,12 @@ const SearchForm = () =>{
                 <div className="heading mb-1">Parking Check-In</div>
                 <div className="placeholder">
                     <input name="checkin" type="date" placeholder="Parking Check-Out" className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckInHandler}/>
-                    {(errors && errors.parkingCheckIn)?<h6 class={{backgroundcolor: 'red'}}>Please enter checkin date</h6>:null}
+                    {(errors && errors.parkingCheckIn)?<h6 class={{backgroundcolor: 'red'}}>CheckIn date is invalid</h6>:null}
                 </div> 
             </label> <label className="col-sm-6 p-0 pl-sm-0 date_input">
                 <div className="heading mb-1">Parking Check-Out</div>
                     <input name="Check-Out" type="date" placeholder="Parking Check-Out" className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckOutHandler}/>
-                    {(errors && errors.parkingCheckOut)?<h6 style={{backgroundColor: 'red'}}>Please enter checkout date</h6>:null}
+                    {(errors && errors.parkingCheckOut)?<h6 style={{backgroundColor: 'red'}}>CheckOut date is invalid</h6>:null}
                
             </label></div>
         <div className="col-12 col-xl-2 p-0 pl-xl-3 my-3 my-xl-0">
