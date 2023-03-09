@@ -1,5 +1,7 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
+import {useEffect} from 'react';
 import moment from 'moment';
+import axios from 'axios';
 const SearchForm = () =>{
     
     const today = moment().format('YYYY-MM-DD').toString()
@@ -71,15 +73,47 @@ const SearchForm = () =>{
             });
         }
     }
+
+    const [records, setRecords] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const fetchData = async () => {
+        setLoading(true)
+        const {data} = await axios.get('http://43.205.1.85:9009/v1/airports')
+        setLoading(false)
+        setRecords(data.results)
+
+    }
+    useEffect(()=> {
+        fetchData()
+     },[])
+
     return(
     <form action="/results.html" method="post">
     <div className="options row m-0"><label className="col-12 col-xl-3 p-0 mr-xl-3 mb-2">
             <div className="heading mb-1">Departure Airport</div>
             <div className="placeholder placeholder-airport">
                 <input type="text" placeholder="Departure Airport" className="placeholder placeholder-airport" onChange={departureAirportHandler} value={departureAirport} />
+                
+                <ul>
+                {records.map((record,index)=>{
+                    const isEven = index%2;
+                    return (
+                    <li key={index}style={{backgroundColor:isEven?'grey':'silver'}}>
+                        {record.name}
+                    </li>
+                    )
+                    }
+                )} 
+                </ul>
                 {(errors && errors.departureAirport)?<h6 style={{backgroundColor: 'red'}}>Please enter departure airport</h6>:null}
+                {loading ?<h1>Loading</h1>:null}
+
             </div> <i
                 className="fas fa-map-marker-alt input-icon"></i>
+
+
+
         </label>
         <div className="col p-0 row m-0 mb-2 dates"><label
                 className="col-sm-6 p-0 pr-sm-3 date_input">
