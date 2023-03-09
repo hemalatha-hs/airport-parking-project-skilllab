@@ -1,3 +1,5 @@
+import React from "react"
+import {Link} from "react-router-dom" 
 function Header () {
     return(
 <header>
@@ -11,7 +13,14 @@ function Header () {
 
 
         <div className="collapse navbar-collapse flex-row-reverse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
+            <ul className="navbar-nav"> 
+              {/* <li>
+                        <a href="/login">Login with href</a>
+                     </li> */}
+                     <li className= 'nav-item'>
+                     <Link className='nav-link' to="login">Login</Link>
+                     </li>
+              
 
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"

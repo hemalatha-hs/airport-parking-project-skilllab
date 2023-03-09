@@ -2,11 +2,11 @@ import React,{useState} from 'react'
 import moment from 'moment';
 const SearchForm = () =>{
     
-    const today = moment().format('YYY-MM-DD').toString()
+    const today = moment().format('YYYY-MM-DD').toString()
     const tomorrow = moment().add(1,'days').format('YYYY-MM-DD').toString()
-    const [departureAirport,setDepartureAirport] = useState('');
-    const [parkingCheckIn,setParkingCheckIn] = useState('today');
-    const [parkingCheckOut,setParkingCheckout] = useState('tomorrow');
+    const [departureAirport,setDepartureAirport] = useState('Delhi');
+    const [parkingCheckIn,setParkingCheckIn] = useState(today);
+    const [parkingCheckOut,setParkingCheckout] = useState(tomorrow);
 
     const [errors, setErrors] = useState({
         departureAirport:false,
@@ -85,12 +85,12 @@ const SearchForm = () =>{
                 className="col-sm-6 p-0 pr-sm-3 date_input">
                 <div className="heading mb-1">Parking Check-In</div>
                 <div className="placeholder">
-                    <input name="checkin" type="date" placeholder="Parking Check-Out" className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckInHandler}/>
+                    <input name="checkin" type="date" placeholder="Parking Check-Out" value ={parkingCheckIn} className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckInHandler}/>
                     {(errors && errors.parkingCheckIn)?<h6 class={{backgroundcolor: 'red'}}>CheckIn date is invalid</h6>:null}
                 </div> 
             </label> <label className="col-sm-6 p-0 pl-sm-0 date_input">
                 <div className="heading mb-1">Parking Check-Out</div>
-                    <input name="Check-Out" type="date" placeholder="Parking Check-Out" className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckOutHandler}/>
+                    <input name="Check-Out" type="date" placeholder="Parking Check-Out" value ={parkingCheckOut}className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckOutHandler}/>
                     {(errors && errors.parkingCheckOut)?<h6 style={{backgroundColor: 'red'}}>CheckOut date is invalid</h6>:null}
                
             </label></div>

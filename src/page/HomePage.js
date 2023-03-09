@@ -1,4 +1,4 @@
-import Header from './Header';
+import React from 'react';
 import Footer from './Footer';
 import SearchForm from './SearchForm';
 
@@ -8,7 +8,7 @@ function HomePage() {
             <div id="app" className="generic">
           <div>
             <app-header>
-                <Header />
+                
             </app-header>
               <div className="content">
                   <us-page-home inline-template>
