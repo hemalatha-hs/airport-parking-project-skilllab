@@ -1,14 +1,50 @@
 import React,{useState} from 'react';
 import {useEffect} from 'react';
 import moment from 'moment';
+import AirportSuggestions from "./AirportSuggestions";
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+
 const SearchForm = () =>{
     
     const today = moment().format('YYYY-MM-DD').toString()
     const tomorrow = moment().add(1,'days').format('YYYY-MM-DD').toString()
-    const [departureAirport,setDepartureAirport] = useState('Delhi');
+    const [airports,setAirports] = useState([]);
+    const [filteredAirports,setFilteredAirports] = useState('');
+    const navigate = useNavigate();
+    const [departureAirport,setDepartureAirport] = useState('');
     const [parkingCheckIn,setParkingCheckIn] = useState(today);
     const [parkingCheckOut,setParkingCheckout] = useState(tomorrow);
+
+    const getAirports = async () => {
+        try {
+            const {data,status} = await axios.get('https://43.205.1.85:9009/v1/airports');
+            if(status === 200 && data) {
+                setAirports(data?.results ?? [])
+            }else {
+                setAirports([])
+            }setLoading(false)
+        }catch (error) {
+            setLoading(false)
+            console.log(error.message)
+        }
+     }
+
+     useEffect(() => {
+        getAirports()
+     }, [])
+
+     const [loading, setLoading] = useState(true);
+
+     const selectAirport = (value) => {
+        setDepartureAirport(value)
+        setFilteredAirports([])
+     }
+
+     useEffect(() => {
+        selectAirport()
+     }, [])
+    
 
     const [errors, setErrors] = useState({
         departureAirport:false,
@@ -27,6 +63,10 @@ const SearchForm = () =>{
         }else{
             setErrors((err)=> ({...err,departureAirport:true}))
         }
+        const filteredAirportsData = airports.filter((airport) => 
+            airport.name.toLowerCase().includes(e.target.value.toLowerCase()));
+            setFilteredAirports(filteredAirportsData?? [])
+            console.log(filteredAirports)
     }
 
     const parkingCheckInHandler = (e) => {
@@ -60,11 +100,14 @@ const SearchForm = () =>{
         console.log(parkingCheckOut);
 
         if (moment(parkingCheckIn) > moment(parkingCheckOut)) {
+            alert("checkIn date cannot be greater than checkOut date")
             setErrors((err) => ({ ...err, parkingCheckOut: true }))
             }     
 
         else if(departureAirport && parkingCheckIn && parkingCheckOut) {
-            alert('Form submitted successfully');
+            navigate(`/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`);
+            alert("Form subitted successfully")
+            //window.location.href = `/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`
         }else{
             setErrors({
                 departureAirport:!departureAirport,
@@ -75,22 +118,23 @@ const SearchForm = () =>{
     }
 
     const [records, setRecords] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
         setLoading(true)
         const {data} = await axios.get('http://43.205.1.85:9009/v1/airports')
         setLoading(false)
-        setRecords(data.results)
-
-    }
+        setRecords(data.results);
+    };
     useEffect(()=> {
         fetchData()
-     },[])
+     },[]);
 
     return(
+        
+        
     <form action="/results.html" method="post">
-    <div className="options row m-0"><label className="col-12 col-xl-3 p-0 mr-xl-3 mb-2">
+    <div className="options row m-0">
+        <label className="col-12 col-xl-3 p-0 mr-xl-3 mb-2">
             <div className="heading mb-1">Departure Airport</div>
             <div className="placeholder placeholder-airport">
                 <input type="text" placeholder="Departure Airport" className="placeholder placeholder-airport" onChange={departureAirportHandler} value={departureAirport} />
