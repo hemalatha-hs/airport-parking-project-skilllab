@@ -3,11 +3,11 @@ import {useEffect} from 'react';
 import moment from 'moment';
 import AirportSuggestions from "../component/AirportSuggestions";
 import axios from 'axios';
-//import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const SearchForm = () =>{
     
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const today = moment().format('YYYY-MM-DD').toString()
     const tomorrow = moment().add(1,'days').format('YYYY-MM-DD').toString()
     const [departureAirport,setDepartureAirport] = useState('');
@@ -115,9 +115,9 @@ const SearchForm = () =>{
 
         //if departure airport,parking checkin and checkout dates are entered, navigate to results page
         else if(departureAirport && parkingCheckIn && parkingCheckOut) {
-           // navigate(`/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`);
+            navigate(`/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`);
             alert("Form subitted successfully")
-            window.location.href = `/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`
+            //window.location.href = `/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`
         }
         //If any fields are missing, then show errors
         else{
