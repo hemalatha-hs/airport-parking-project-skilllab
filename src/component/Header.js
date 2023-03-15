@@ -1,10 +1,10 @@
 import React from "react"
 import {Link} from "react-router-dom" 
-function Header () {
+function Header  ()  {
     return(
 <header>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" href="/"><img src={require("./assets/navigation_logo.png")}
+        <a className="navbar-brand" href="/"><img src="/assets/navigation_logo.png"
                 alt="AIRPORT PARKING - RESERVATIONS.COM" itemProp="logo" height="40" /></a>
 
 
@@ -40,5 +40,5 @@ function Header () {
     </nav>
 </header>
     );
-    }
+    };
 export default Header;
