@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {useEffect} from 'react';
 import moment from 'moment';
-import AirportSuggestions from "../component/AirportSuggestions";
+import AirportSuggestions from "../components/AirportSuggestions";
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
@@ -133,7 +133,7 @@ const SearchForm = () =>{
 
     const fetchData = async () => {
         setLoading(true)
-        const {data} = await axios.get('http://43.205.1.85:9009/v1/airports')
+        const {data} = await axios.get(' http://43.205.1.85:9009/v1/airports  to  https://rl.talentcoco.in/v1/airports')
         setLoading(false)
         setRecords(data.results);
     };

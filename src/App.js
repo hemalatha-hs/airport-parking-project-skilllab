@@ -1,6 +1,6 @@
 import './page/assets/style.css';
 import Homepage from './page/Home';
-import Layout from './component/Layout';
+import Layout from './components/Layout';
 import Login from './page/Login';
 import AirportAvailability from './page/AirportAvailability'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
