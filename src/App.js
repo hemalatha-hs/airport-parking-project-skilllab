@@ -1,8 +1,8 @@
-import './page/assets/style.css';
-import Homepage from './page/Home';
+import './pages/assets/style.css';
+import Homepage from './pages/Home';
 import Layout from './components/Layout';
-import Login from './page/Login';
-import AirportAvailability from './page/AirportAvailability'
+import Login from './pages/Login';
+import AirportAvailability from './pages/AirportAvailability'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function  App()  {
