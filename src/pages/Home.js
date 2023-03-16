@@ -3,11 +3,11 @@ import {useEffect} from 'react';
 import moment from 'moment';
 import AirportSuggestions from "../components/AirportSuggestions";
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+//import {useNavigate} from 'react-router-dom';
 
 const SearchForm = () =>{
     
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const today = moment().format('YYYY-MM-DD').toString()
     const tomorrow = moment().add(1,'days').format('YYYY-MM-DD').toString()
     const [departureAirport,setDepartureAirport] = useState('');
@@ -19,6 +19,7 @@ const SearchForm = () =>{
     //function to get airport data from the server
     const getAirports = async () => {
         try {
+            setLoading(true)
             const {data,status} = await axios.get('https://43.205.1.85:9009/v1/airports');
             if(status === 200 && data) {
                 setAirports(data?.results ?? [])
@@ -115,7 +116,7 @@ const SearchForm = () =>{
 
         //if departure airport,parking checkin and checkout dates are entered, navigate to results page
         else if(departureAirport && parkingCheckIn && parkingCheckOut) {
-            navigate(`/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`);
+            //navigate(`/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`);
             alert("Form subitted successfully")
             //window.location.href = `/results?departureAirport=${departureAirport}&checkin=${parkingCheckIn}&checkout=${parkingCheckOut}`
         }
@@ -180,7 +181,7 @@ const SearchForm = () =>{
             </div> <i
                 className="fas fa-map-marker-alt input-icon"></i>
 
-            {loading ?<h3>Loading</h3>:null}
+            {loading ?<h3>loading..</h3>:null}
             {(errors && errors.departureAirport)?<h6 style={{backgroundColor: 'red'}}>Invalid Departure Airport</h6>:null}
             <AirportSuggestions airports={filteredAirports} selecrAirport={selectAirport} />
         </label>
