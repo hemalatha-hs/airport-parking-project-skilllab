@@ -169,7 +169,7 @@ const SearchForm = () =>{
                         </div>
                     </div> 
                 </div>
-                {loading && <h3>loading..</h3>}
+                
                 <form action="/results.html" method="post">
                     <div className="options row m-0"><label className="col-12 col-xl-3 p-0 mr-xl-3 mb-2">
                         <div className="heading mb-1">Departure Airport</div>
