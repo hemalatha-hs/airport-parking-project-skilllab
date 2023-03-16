@@ -189,7 +189,7 @@ const SearchForm = () =>{
                 className="col-sm-6 p-0 pr-sm-3 date_input">
                 <div className="heading mb-1">Parking Check-In</div>
                 <div className="placeholder">
-                    <input name="checkin" type="date" placeholder="Parking Check-Out" value ={parkingCheckIn} className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckInHandler}/>
+                    <input name="checkin" type="date" placeholder="Parking Check-In" value ={parkingCheckIn} className="placeholder placeholder-airport" style={{width:'100%'}} onChange={parkingCheckInHandler}/>
                     {(errors && errors.parkingCheckIn)?<h6 class={{backgroundcolor: 'red'}}>Invalid checkin Date</h6>:null}
                 </div> 
             </label> <label className="col-sm-6 p-0 pl-sm-0 date_input">
