@@ -177,6 +177,18 @@ const SearchForm = () =>{
                         <input type="text" placeholder="Departure Airport" 
                         onChange={departureAirportHandler} 
                         value={departureAirport} className="placeholder placeholder-airport"/>
+                        <ul>
+                        {records.map((record,index)=>{
+                        const isEven = index%2;
+                        return (
+                        <li key={index}style={{backgroundColor:isEven?'grey':'silver'}}>
+                        {record.name}
+                        </li>
+                        )
+                    }
+                )}
+            </ul>
+            {loading ?<h1>loading..</h1>:null}
                 
             </div> <i
                 className="fas fa-map-marker-alt input-icon"></i>
